@@ -15,11 +15,12 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://localhost:5173',
-    'https://agri-fasal-mitra.vercel.app', // Vercel frontend
-    'https://agri-fasal-mitra.onrender.com' // Render backend
+    'https://agri-fasal-mitra-two.vercel.app/',
+    'https://agri-fasal-mitra.onrender.com'
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all necessary HTTP methods
-  credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 app.use(express.json());
 

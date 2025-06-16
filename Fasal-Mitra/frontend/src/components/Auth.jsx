@@ -6,6 +6,8 @@ import gifImage from "../assets/login-gif.gif";
 import bgImage from "../assets/bg.jpg";
 import hiddenIcon from "../assets/hidden.png";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const Auth = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,9 +37,14 @@ const Auth = ({ onLogin }) => {
     setIsLoading(true);
     try {
       console.log("Attempting login with:", { email });
-      const response = await axios.post('/api/auth/login', { 
+      const response = await axios.post(`${API_URL}/auth/login`, { 
         email, 
         password 
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
       });
 
       console.log("Login response:", response.data);

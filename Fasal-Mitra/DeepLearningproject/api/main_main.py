@@ -37,7 +37,7 @@ os.makedirs(POLICY_DIR, exist_ok=True)
 origins = [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://agri-fasal-mitra.vercel.app",
+    "https://agri-fasal-mitra-two.vercel.app",
     "https://agri-fasal-mitra.onrender.com",
     "http://localhost:8002",
     "http://127.0.0.1:8002"

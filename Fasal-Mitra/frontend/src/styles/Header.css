@@ -1,0 +1,221 @@
+/* General styles for the header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #107813, #afcd2afd);
+  padding: 0.5rem 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  height: 70px;
+}
+
+.header-container .logo {
+  height: 50px; /* Adjust the height as needed */
+  width: 100px; /* Adjust the width as needed */
+  
+}
+
+/* Navigation links styles */
+.nav-links {
+  padding-top: 2px;
+  display: flex; /* Flexbox for horizontal layout */
+  gap: 15px; /* Space between links */
+  transition: max-height 0.3s ease; /* Smooth transition for dropdown */
+  margin-left: 20px; /* Add margin from the leftmost side */
+  margin-right: 25px;
+  align-items: center;
+}
+
+/* Individual link styles */
+.nav-links a {
+  color: #ffffff; /* White text color */
+  text-decoration: none; /* Remove underline */
+  padding: 10px; /* Reduced padding for a slimmer appearance */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 1em; /* Smaller font size for links */
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Hover effect for links */
+.nav-links a:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Light transparent background on hover */
+  color: #ffffff; /* White text on hover */
+  transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Login/Logout button styles */
+.nav-links a[href="/auth"],
+.logout-button {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.nav-links a[href="/auth"]:hover,
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logout-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.logout-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Hamburger menu styles */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+}
+
+.menu-icon {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: white;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.menu-icon::before { top: -8px; }
+.menu-icon::after { bottom: -8px; }
+
+.menu-icon.open {
+  background: transparent;
+}
+
+.menu-icon.open::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.menu-icon.open::after {
+  transform: rotate(-45deg);
+  bottom: 0;
+}
+
+/* Styles when the menu is open */
+.nav-open {
+  max-height: 300px; /* Set max height for dropdown effect */
+  overflow: hidden; /* Hide overflow content */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+  .nav-links {
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #107813, #afcd2afd);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-links.nav-open {
+    max-height: calc(100vh - 70px);
+    opacity: 1;
+    visibility: visible;
+    padding: 1rem 0;
+    overflow-y: auto;
+  }
+
+  .nav-links a,
+  .logout-button {
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: 0;
+    border: none;
+    margin: 0;
+    text-align: left;
+  }
+
+  .nav-links a:hover,
+  .logout-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.5rem;
+    height: 60px;
+  }
+
+  .header-container .logo {
+    height: 40px;
+    width: 80px;
+  }
+
+  .nav-links.nav-open {
+    top: 60px;
+  }
+}
+
+/* Add a margin to the body to prevent content from being hidden behind the fixed header */
+body {
+  margin-top: 0px; /* Adjust this value based on your header height */
+}

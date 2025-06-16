@@ -1,0 +1,208 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6;
+}
+
+.Rent-machine-Equipment {
+    text-align: center;
+    padding: 20px;
+}
+
+.Rent-machine-Equipment h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.Rent-machine-Equipment p {
+    color: #4b5563;
+    font-size: 16px;
+}
+
+.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.p-4 {
+    padding: 16px;
+}
+
+header {
+    background-color: white;
+    padding: 16px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input[type='text'] {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    width: 33%;
+}
+
+.grid {
+    display: grid;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.sm\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.bg-white {
+    background-color: white;
+}
+
+.p-4 {
+    padding: 16px;
+}
+
+.rounded-lg {
+    border-radius: 8px;
+}
+
+.shadow-md {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button.border {
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+button.bg-green-500 {
+    background-color: #10b981;
+    color: white;
+    border: none;
+}
+
+button.bg-green-500:hover {
+    background-color: #059669;
+}
+
+@media (max-width: 768px) {
+    .sm\:grid-cols-2 { grid-template-columns: 1fr; }
+    .md\:grid-cols-3 { grid-template-columns: 1fr; }
+    input[type='text'] {
+        width: 100%;
+    }
+}
+
+/* Payment Form Styles */
+/* General Form Styling */
+/* General Form Styling */
+.Rent-machine-Equipment form {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+/* Title */
+.Rent-machine-Equipment form h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Card Element Container */
+.Rent-machine-Equipment form div {
+    margin-bottom: 20px;
+}
+
+/* Stripe Card Element Styling */
+.StripeElement {
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+/* Card Element Focus State */
+.StripeElement--focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Card Element Invalid State */
+.StripeElement--invalid {
+    border-color: #e74c3c;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+}
+
+/* Button Styling */
+.Rent-machine-Equipment button {
+    display: inline-block;
+    width: 100%;
+    padding: 14px;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+/* Button Hover Effect */
+.Rent-machine-Equipment button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* Disabled Button */
+.Rent-machine-Equipment button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+}
+
+/* Price Label */
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}
+

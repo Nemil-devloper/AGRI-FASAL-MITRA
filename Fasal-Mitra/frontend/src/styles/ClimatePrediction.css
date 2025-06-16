@@ -1,0 +1,122 @@
+.climate-prediction-page {
+  min-height: 100vh;
+  padding: 80px 20px 20px;
+  position: relative;
+}
+
+/* Darker overlay for better text visibility */
+.climate-prediction-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
+}
+
+/* Ensure content stays above overlay */
+.weather-header, 
+.weather-content {
+  position: relative;
+  z-index: 2;
+}
+
+.weather-header h1 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+.weather-header p {
+  color: #ffffff;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.current-weather-section,
+.forecast-section {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.current-weather-info h1 {
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.current-weather-info p,
+.weather-details p {
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin: 8px 0;
+}
+
+.forecast-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.day {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .weather-header h1 {
+    font-size: 2rem;
+  }
+  
+  .weather-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .climate-prediction-page {
+    padding: 60px 15px 15px;
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .search-bar input,
+  .search-bar button {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .forecast-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .weather-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .current-weather-section,
+  .forecast-section {
+    padding: 15px;
+  }
+
+  .forecast-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-card {
+    padding: 10px;
+  }
+}

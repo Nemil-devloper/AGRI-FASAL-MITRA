@@ -1,0 +1,115 @@
+.smart-irrigation-container {
+  padding: 80px 20px 20px;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.smart-irrigation-container .sections-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.smart-irrigation-container .section-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.smart-irrigation-container .section-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.smart-irrigation-container .section-item.right {
+  flex-direction: row-reverse;
+}
+
+.smart-irrigation-container .section-item img {
+  width: 40%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.smart-irrigation-container .section-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.smart-irrigation-container .section-content h3 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.smart-irrigation-container .section-content p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .smart-irrigation-container .section-item img {
+    height: 250px;
+  }
+
+  .smart-irrigation-container .section-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .smart-irrigation-container .section-content p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .smart-irrigation-container {
+    padding: 70px 15px 15px;
+  }
+
+  .smart-irrigation-container .section-item,
+  .smart-irrigation-container .section-item.right {
+    flex-direction: column;
+  }
+
+  .smart-irrigation-container .section-item img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .smart-irrigation-container .section-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .smart-irrigation-container {
+    padding: 60px 10px 10px;
+  }
+
+  .smart-irrigation-container .section-item img {
+    height: 180px;
+  }
+
+  .smart-irrigation-container .section-content {
+    padding: 15px;
+  }
+
+  .smart-irrigation-container .section-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .smart-irrigation-container .section-content p {
+    font-size: 0.9rem;
+  }
+}

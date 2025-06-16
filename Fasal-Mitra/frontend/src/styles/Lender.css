@@ -1,0 +1,122 @@
+.lender-page {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 50px;
+    padding-top: 40px;
+    box-sizing: border-box;
+    background-image: url("lender.jpg");
+    background-size: 3050px 1000px;
+    opacity: 0.9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .lender-container { 
+    padding-top: 20px;
+    margin:0%;
+    margin-bottom: 60px;
+    margin-top: 0px;
+    width: 1170px;
+    max-width: 1200px;
+    max-height: 80vh; /* Scroll limit within the container */
+    overflow-y: auto;
+    padding-right: 60px;
+    padding-left: 60px;
+    background: linear-gradient(135deg, rgba(82, 185, 9, 0.722), rgba(226, 226, 9, 0.853));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 24px;
+    backdrop-filter: blur(80px);
+    scrollbar-width: thin;
+    scrollbar-color: #bbff00 #170303c2;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Custom Scrollbar */
+  
+  
+ 
+  .lender-container::-webkit-scrollbar-track {
+    background: rgba(240, 240, 240, 0.8);
+    border-radius: 2px;
+  }
+  
+  .form-title {
+    font-size: 36px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 24px;
+    color: #444;
+  }
+  
+  .lender-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select,
+  .form-file-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.85);
+    transition: 0.2s ease-in-out;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus,
+  .form-file-input:focus {
+    border-color: #2575fc;
+    outline: none;
+    box-shadow: 0 0 10px rgba(37, 117, 252, 0.4);
+  }
+  
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  .form-button {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+    margin-bottom: 20px;
+  }
+  
+  .form-button:hover {
+    background: linear-gradient(to right, #5a0cbc, #1d62f0);
+  }
+  
+  .button-loading {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .submit-message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 24px;
+  }
+  
+  .success {
+    color: #28a745;
+  }
+  
+  .error {
+    color: #dc3545;
+  }
+  

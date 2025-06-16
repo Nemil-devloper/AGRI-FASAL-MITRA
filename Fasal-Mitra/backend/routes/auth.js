@@ -30,10 +30,8 @@ router.post(
         return res.status(400).json({ msg: 'User already exists' });
       }
 
+      // Create new user - password will be hashed by the User model's pre-save middleware
       user = new User({ username, email, password, phone, dob });
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-
       await user.save();
 
       const payload = { user: { id: user.id } };

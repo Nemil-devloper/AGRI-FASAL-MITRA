@@ -1,29 +1,31 @@
-# Web Framework and Server
-fastapi==0.104.1
-uvicorn==0.24.0
+# Core Dependencies
+fastapi==0.95.2
+uvicorn==0.22.0
 python-multipart==0.0.6
-starlette==0.27.0
-pydantic==2.4.2
-typing-extensions==4.8.0
+starlette==0.26.1
+pydantic==1.10.7
 
-# AI/ML Dependencies
-tensorflow==2.14.0
-numpy==1.24.3
-Pillow==10.0.0
-scikit-learn==1.3.2
-opencv-python-headless==4.8.1.78
+# ML/AI Dependencies
+tensorflow-cpu==2.11.0
+numpy==1.23.5
+Pillow==9.5.0
+opencv-python-headless==4.7.0.72
 
-# Policy Scraping and Processing
-requests==2.31.0
-beautifulsoup4==4.12.2
-lxml==4.9.3
+# Policy Scraping
+requests==2.28.2
+beautifulsoup4==4.11.2
+lxml==4.9.2
 html5lib==1.1
 
-# Utilities
+# Server and Utilities
+gunicorn==20.1.0
 python-dotenv==1.0.0
-gunicorn==21.2.0
-psycopg2-binary==2.9.9
-aiofiles==23.2.1
+aiofiles==23.1.0
+
+# AI/ML Dependencies
+scikit-learn==1.3.2
+
+# Policy Scraping and Processing
 python-jose==3.3.0
 passlib==1.7.4
 bcrypt==4.0.1

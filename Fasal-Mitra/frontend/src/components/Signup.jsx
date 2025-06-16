@@ -6,6 +6,8 @@ import gifImage from "../assets/login-gif.gif";
 import bgImage from "../assets/bg.jpg";
 import hiddenIcon from "../assets/hidden.png";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -56,13 +58,20 @@ const Signup = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post('/api/auth/register', {
+      console.log('Attempting signup with:', { username, email, phone, dob });
+      const response = await axios.post(`${API_URL}/auth/register`, {
         username,
         email,
         password,
         phone,
-        dob,
+        dob: new Date(dob).toISOString(),
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
+
+      console.log('Signup response:', response.data);
 
       if (response.data.token) {
         localStorage.setItem("authToken", response.data.token);
@@ -71,7 +80,12 @@ const Signup = () => {
         setErrorMsg("Signup failed: No token received");
       }
     } catch (error) {
-      setErrorMsg(error.response?.data?.message || "Signup failed. Please try again.");
+      console.error('Signup error:', error);
+      setErrorMsg(
+        error.response?.data?.message || 
+        error.response?.data?.msg || 
+        "Signup failed. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }

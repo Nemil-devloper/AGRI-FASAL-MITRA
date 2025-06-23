@@ -18,7 +18,7 @@ from fastapi.responses import HTMLResponse
 import pathlib
 
 app = FastAPI()
-MiddlewareType: Type[CORSMiddleware] = CORSMiddleware
+
 
 # Get the current directory
 CURRENT_DIR = pathlib.Path(__file__).parent.absolute()

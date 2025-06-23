@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: deep-learning-api
-    env: docker
-    plan: free
-    autoDeploy: true
-    region: oregon

@@ -10,7 +10,7 @@ const Policy = () => {
     try {
       setLoading(true);
       setError(null);
-      const API_URL = import.meta.env.VITE_POLICY_API_URL || 'http://localhost:8002';
+      const API_URL = import.meta.env.VITE_POLICY_API_URL;
       console.log('Fetching policy data from:', `${API_URL}/api/policy`);
       
       const response = await fetch(`${API_URL}/api/policy`, {

@@ -15,6 +15,7 @@ const port = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     'http://localhost:3000',
+    'https://agri-fasal-mitra-one.vercel.app',
     'http://localhost:5173',
     'https://agri-fasal-mitra-two.vercel.app',
     'https://agri-fasal-mitra.onrender.com'

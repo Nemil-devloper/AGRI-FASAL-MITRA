@@ -1,9 +1,11 @@
 services:
   - type: web
-    name: deep-learning-backend
+    name: agri-fasal-backend
     env: docker
     plan: free
     autoDeploy: true
     repo: https://github.com/Nemil-devloper/AGRI-FASAL-MITRA
-    dockerContext: Fasal-mitra/DeepLearningproject
-    dockerfilePath: Fasal-mitra/DeepLearningproject/Dockerfile
+    branch: main
+    # Tell Render where your Docker context and Dockerfile are:
+    dockerContext: Fasal-Mitra/DeepLearningproject
+    dockerfilePath: Fasal-Mitra/DeepLearningproject/Dockerfile

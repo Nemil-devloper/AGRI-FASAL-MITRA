@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fasal-mitra-backend
+    env: docker
+    plan: free
+    region: singapore
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.h5
+*.keras
+*.log
+*.db
+.DS_Store
+.idea/
+.ipynb_checkpoints/
+*.bak
+webpage_data.html
+webpage_data_backup.html

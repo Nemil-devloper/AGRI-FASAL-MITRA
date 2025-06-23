@@ -1,10 +1,10 @@
-# Use compatible Python version (3.10) for TensorFlow 2.10
+# Use compatible Python version for TensorFlow
 FROM python:3.10-slim
 
-# Set working directory
+# Set work directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system packages
 RUN apt-get update && apt-get install -y \
     build-essential \
     libjpeg-dev \
@@ -13,15 +13,18 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Install dependencies
 COPY api/requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Set working directory to API code
+# Move into api directory to run FastAPI app
 WORKDIR /app/api
 
-# Run FastAPI app
+# Expose port
+EXPOSE 8000
+
+# Run the API server
 CMD ["uvicorn", "main_main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: agri-fasal-backend
-    env: docker
-    plan: free
-    repo: https://github.com/Nemil-devloper/AGRI-FASAL-MITRA
-    branch: main
-    dockerContext: Fasal-Mitra/DeepLearningproject
-    dockerfilePath: Fasal-Mitra/DeepLearningproject/Dockerfile

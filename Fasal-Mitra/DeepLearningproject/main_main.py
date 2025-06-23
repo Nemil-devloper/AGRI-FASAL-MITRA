@@ -34,21 +34,18 @@ POLICY_BACKUP_FILE = os.path.join(POLICY_DIR, "webpage_data_backup.html")
 os.makedirs(POLICY_DIR, exist_ok=True)
 
 # Update CORS configuration to match your frontend
-origins = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:8002",
-    "https://agri-fasal-mitra.onrender.com",  # backend
-    "https://agri-fasal-mitra-iota.vercel.app",  # ✅ <-- ADD THIS LINE
-]
-
 app.add_middleware(
-    MiddlewareType,
-    allow_origins=origins,
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:8002",
+        "https://agri-fasal-mitra.onrender.com",
+        "https://agri-fasal-mitra-iota.vercel.app",
+    ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"]
 )
 
 # Load ML models with absolute paths

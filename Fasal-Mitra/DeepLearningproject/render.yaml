@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: fastapi-agri-backend
+    env: docker
+    plan: free
+    repo: https://github.com/Nemil-devloper/AGRI-FASAL-MITRA
+    branch: main
+    rootDir: Fasal-Mitra/DeepLearningproject  # 👈 this is critical
+    dockerfilePath: Dockerfile

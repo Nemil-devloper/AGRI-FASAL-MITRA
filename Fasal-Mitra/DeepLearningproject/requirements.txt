@@ -1,6 +1,6 @@
 fastapi==0.95.2
 uvicorn==0.22.0
-tensorflow==2.18
+tensorflow==2.19.0
 beautifulsoup4==4.12.2
 pandas==1.5.3
 requests==2.31.0

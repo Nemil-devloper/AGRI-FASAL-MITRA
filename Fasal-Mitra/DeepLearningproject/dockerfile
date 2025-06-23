@@ -1,16 +1,27 @@
-# Use official Python image with compatibility
+# Use compatible Python version (3.10) for TensorFlow 2.10
 FROM python:3.10-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies for TensorFlow
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libjpeg-dev libpng-dev && rm -rf /var/lib/apt/lists/*
+    build-essential \
+    libjpeg-dev \
+    zlib1g-dev \
+    libpng-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY api/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies
+COPY api/requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Copy project files
 COPY . .
+
+# Set working directory to API code
 WORKDIR /app/api
 
+# Run FastAPI app
 CMD ["uvicorn", "main_main:app", "--host", "0.0.0.0", "--port", "8000"]

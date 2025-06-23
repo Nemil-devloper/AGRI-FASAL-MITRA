@@ -37,10 +37,9 @@ os.makedirs(POLICY_DIR, exist_ok=True)
 origins = [
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://agri-fasal-mitra-iota.vercel.app",
-    "https://agri-fasal-mitra.onrender.com",
-    "http://localhost:8002",
-    "http://127.0.0.1:8002"
+    "http://127.0.0.1:8002",
+    "https://agri-fasal-mitra.onrender.com",  # backend
+    "https://agri-fasal-mitra-iota.vercel.app",  # ✅ <-- ADD THIS LINE
 ]
 
 app.add_middleware(

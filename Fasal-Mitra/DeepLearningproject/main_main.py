@@ -53,7 +53,7 @@ app.add_middleware(
 )
 
 # Load ML models with absolute paths
-MODELS_DIR = os.path.join(BASE_DIR, "models")
+MODELS_DIR = os.path.join(CURRENT_DIR, "models")
 potato_model = tf.keras.models.load_model(os.path.join(MODELS_DIR, "1.keras"))
 bell_pepper_model = tf.keras.models.load_model(os.path.join(MODELS_DIR, "2.keras"))
 tomato_model = tf.keras.models.load_model(os.path.join(MODELS_DIR, "3.keras"))

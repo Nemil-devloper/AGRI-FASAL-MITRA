@@ -8,3 +8,12 @@ pillow
 numpy
 requests
 beautifulsoup4
+tensorflow==2.10.1
+scikit-learn
+scipy
+joblib
+pandas
+matplotlib
+seaborn
+scikit-image
+opencv-python   

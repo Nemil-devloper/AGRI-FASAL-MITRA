@@ -12,7 +12,8 @@ const equipmentSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: ['Tractors', 'Harvesters', 'Planters', 'Sprayers', 'Other']
     },
     dailyRate: {
         type: Number,
@@ -24,8 +25,7 @@ const equipmentSchema = new mongoose.Schema({
         required: true
     },
     images: [{
-        type: String,
-        required: true
+        type: String
     }],
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -36,12 +36,49 @@ const equipmentSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    // New fields for practical information
+    specifications: {
+        brand: String,
+        model: String,
+        year: Number,
+        horsepower: Number,
+        fuelType: String,
+        operatingHours: Number,
+        maintenanceHistory: String,
+        lastServiceDate: Date,
+        nextServiceDue: Date
+    },
+    requirements: {
+        operatorLicense: Boolean,
+        operatorExperience: String,
+        specialTraining: String,
+        insuranceRequired: Boolean,
+        depositAmount: Number
+    },
+    operatingInstructions: {
+        type: String,
+        required: true
+    },
+    safetyGuidelines: {
+        type: String,
+        required: true
+    },
+    contactInfo: {
+        phone: String,
+        email: String,
+        preferredContactTime: String,
+        emergencyContact: String
+    },
+    rating: {
+        type: Number,
+        default: 0
+    },
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }]
+}, {
+    timestamps: true
 });
 
-const Equipment = mongoose.model('Equipment', equipmentSchema);
-
-module.exports = Equipment; 
+module.exports = mongoose.model('Equipment', equipmentSchema, 'equipment'); 

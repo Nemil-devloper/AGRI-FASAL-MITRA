@@ -1,11 +1,10 @@
-import { useState, useEffect, Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import Header from "./components/Header";
 import "./styles/App.css";
-
-// Import Policy component directly
 import Policy from "./components/Policy";
 
 // Lazy load other components
@@ -48,151 +47,188 @@ const LoadingSpinner = () => (
 );
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem("authToken");
-      if (token) {
-        try {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          const response = await axios.get("https://agri-fasal-mitra.onrender.com/api/auth/profile");
-          if (response.data) {
-            setUser(response.data);
-            setIsAuthenticated(true);
-          } else {
-            localStorage.removeItem("authToken");
-            delete axios.defaults.headers.common["Authorization"];
-          }
-        } catch (error) {
-          console.error("Token verification failed:", error);
-          localStorage.removeItem("authToken");
-          delete axios.defaults.headers.common["Authorization"];
-        }
-      }
-      setLoading(false);
-    };
-
-    verifyToken();
-  }, []);
-
-  const handleLogin = (token) => {
-    if (token) {
-      localStorage.setItem("authToken", token);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      setIsAuthenticated(true);
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setUser(null);
-    localStorage.removeItem("authToken");
-    delete axios.defaults.headers.common["Authorization"];
-  };
-
+  // Helper to conditionally render Header
   const ShowHeader = () => {
     const location = useLocation();
-    return !["/auth", "/signup"].includes(location.pathname) ? (
-      <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} user={user} />
-    ) : null;
+    return !["/login", "/signup"].includes(location.pathname) ? <Header /> : null;
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  const MainContent = ({ children }) => {
+    const location = useLocation();
+    const noHeader = ["/login", "/signup"].includes(location.pathname);
+    return (
+      <div className={`main-content${noHeader ? " no-header-padding" : ""}`}>
+        {children}
+      </div>
+    );
+  };
 
   return (
     <AuthProvider>
       <Router>
         <ShowHeader />
-        <Suspense fallback={<LoadingSpinner />}>
-          <Routes>
-            {/* Public routes */}
-            <Route 
-              path="/auth" 
-              element={!isAuthenticated ? <Auth onLogin={handleLogin} /> : <Navigate to="/" replace />} 
-            />
-            <Route 
-              path="/signup" 
-              element={!isAuthenticated ? <Signup /> : <Navigate to="/" replace />} 
-            />
+        <MainContent>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              {/* Public routes */}
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Auth />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <Signup />
+                  </PublicRoute>
+                }
+              />
 
-            {/* Protected routes */}
-            <Route 
-              path="/" 
-              element={isAuthenticated ? <Home user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/machine-rental/lender" 
-              element={isAuthenticated ? <Lender user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/machine-rental/receiver" 
-              element={isAuthenticated ? <Receiver user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/machine-rental" 
-              element={isAuthenticated ? <MachineRental user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/chatbot" 
-              element={isAuthenticated ? <ChatBot user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/smart-irrigation" 
-              element={isAuthenticated ? <SmartIrrigation user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/smart-irrigation/water-level-and-waste-management-planner" 
-              element={isAuthenticated ? <WaterLevelAndWasteManagementPlanner user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/smart-irrigation/pest-attack-prediction" 
-              element={isAuthenticated ? <PestAttackPrediction user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/smart-irrigation/farm-profit" 
-              element={isAuthenticated ? <FarmProfitability user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/ai-pest-detection" 
-              element={isAuthenticated ? <AIPestDetection user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/climate-prediction" 
-              element={isAuthenticated ? <ClimatePrediction user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/plant-disease-detection" 
-              element={isAuthenticated ? <PlantDiseaseDetection user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/plant-disease-detection/potato" 
-              element={isAuthenticated ? <Potato user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/plant-disease-detection/bellpepper" 
-              element={isAuthenticated ? <BellPepper user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/plant-disease-detection/tomato" 
-              element={isAuthenticated ? <Tomato user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            <Route 
-              path="/policy" 
-              element={isAuthenticated ? <Policy user={user} /> : <Navigate to="/auth" replace />} 
-            />
-            
-            {/* Catch all route */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
+              {/* Private routes */}
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route 
+                path="/machine-rental/lender" 
+                element={
+                  <ProtectedRoute>
+                    <Lender />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/machine-rental/receiver" 
+                element={
+                  <ProtectedRoute>
+                    <Receiver />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/machine-rental" 
+                element={
+                  <ProtectedRoute>
+                    <MachineRental />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/chatbot" 
+                element={
+                  <ProtectedRoute>
+                    <ChatBot />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/smart-irrigation" 
+                element={
+                  <ProtectedRoute>
+                    <SmartIrrigation />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/smart-irrigation/water-level-and-waste-management-planner" 
+                element={
+                  <ProtectedRoute>
+                    <WaterLevelAndWasteManagementPlanner />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/smart-irrigation/pest-attack-prediction" 
+                element={
+                  <ProtectedRoute>
+                    <PestAttackPrediction />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/smart-irrigation/farm-profit" 
+                element={
+                  <ProtectedRoute>
+                    <FarmProfitability />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/ai-pest-detection" 
+                element={
+                  <ProtectedRoute>
+                    <AIPestDetection />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/climate-prediction" 
+                element={
+                  <ProtectedRoute>
+                    <ClimatePrediction />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/plant-disease-detection" 
+                element={
+                  <ProtectedRoute>
+                    <PlantDiseaseDetection />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/plant-disease-detection/potato" 
+                element={
+                  <ProtectedRoute>
+                    <Potato />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/plant-disease-detection/bellpepper" 
+                element={
+                  <ProtectedRoute>
+                    <BellPepper />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/plant-disease-detection/tomato" 
+                element={
+                  <ProtectedRoute>
+                    <Tomato />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/policy" 
+                element={
+                  <ProtectedRoute>
+                    <Policy />
+                  </ProtectedRoute>
+                } 
+              />
+              {/* Default redirect */}
+              <Route path="*" element={<Navigate to="/home" replace />} />
+            </Routes>
+          </Suspense>
+        </MainContent>
       </Router>
     </AuthProvider>
   );
 };
 
+// NOTE: JWT/session is now stored in cookies via js-cookie in AuthContext.
+// Make sure cookie options are set for both localhost (dev) and your live domain (e.g., secure: true, sameSite: 'Lax' or 'None', domain: 'yourapp.com' in production).
+
 export default App;
+

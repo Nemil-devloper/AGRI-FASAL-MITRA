@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Auth.css";
-import gifImage from "../assets/login-gif.gif";
-import bgImage from "../assets/bg.jpg";
-import hiddenIcon from "../assets/hidden.png";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-const Auth = ({ onLogin }) => {
+const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -16,6 +14,15 @@ const Auth = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  // Reset form fields on mount (or when component remounts)
+  useEffect(() => {
+    setEmail("");
+    setPassword("");
+    setErrorMsg("");
+    setInputErrors({});
+  }, []);
 
   const validateInputs = () => {
     const errors = {};
@@ -50,9 +57,9 @@ const Auth = ({ onLogin }) => {
       console.log("Login response:", response.data);
 
       if (response.data.token) {
-        onLogin(response.data.token);
+        await login(response.data.token);
         console.log("Token passed to parent component");
-        navigate("/", { replace: true });
+        navigate("/home", { replace: true });
         console.log("Navigation to home page initiated");
       } else {
         console.error("No token in response:", response.data);
@@ -72,202 +79,228 @@ const Auth = ({ onLogin }) => {
   };
 
   return (
-    <div className="auth-main-container" style={{ background: "linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%)" }}>
-      <div className="auth-gif-section" style={{
-        background: "linear-gradient(120deg, #f6d365 0%, #fda085 100%)",
+    <div
+      className="auth-main-container"
+      style={{
+        minHeight: "100vh",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}>
-        <img
-          src={gifImage}
-          alt="Login GIF"
-          style={{
-            width: "90%",
-            height: "90%",
-            objectFit: "cover",
-            margin: 0,
-            padding: 0,
-            borderRadius: "24px",
-            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)"
-          }}
-        />
-      </div>
-      <div className="auth-form-section" style={{
-        display: "flex",
+        flexDirection: "row",
+        background: "linear-gradient(120deg, #e8f5e9 0%, #fbeee6 100%)",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)",
-        height: "100vh",
-        minHeight: "100vh",
-        padding: 0,
-        margin: 0
-      }}>
-        <div
-          className="auth-container"
-          style={{
-            width: "100%",
-            height: "100vh",
-            margin: 0,
-            padding: "40px 0",
-            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-            borderRadius: "24px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            position: "relative",
-            overflow: "hidden"
-          }}
-        >
-          <div style={{
-            position: "absolute",
-            top: 0, left: 0, right: 0, bottom: 0,
-            background: "rgba(255,255,255,0.85)",
-            zIndex: 0
-          }} />
-          <div style={{ position: "relative", zIndex: 1, width: "100%" }}>
-            <h2 style={{
-              color: "#2563eb",
+        padding: "0",
+        position: "relative",
+      }}
+    >
+      {/* Subtle farm background accent */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          background: "url('https://www.transparenttextures.com/patterns/grass.png') repeat",
+          opacity: 0.08,
+          zIndex: 0,
+        }}
+      />
+      <div
+        className="auth-prompt-section"
+        style={{
+          flex: 1,
+          minWidth: "220px",
+          maxWidth: "400px",
+          padding: "2.5rem 2rem",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          background: "linear-gradient(120deg, #6b8e23 0%, #a0522d 100%)",
+          color: "#fff",
+          borderRadius: "18px 0 0 18px",
+          boxShadow: "0 8px 32px 0 rgba(107, 142, 35, 0.18)",
+          minHeight: "400px",
+          zIndex: 1,
+        }}
+      >
+        <h2 style={{ fontWeight: 700, fontSize: "2em", marginBottom: "1rem" }}>
+          Welcome Back, Farmer!
+        </h2>
+        <p style={{ fontSize: "1.1em", lineHeight: 1.6 }}>
+          Log in to manage your crops, connect with fellow farmers, and access tools to grow your farm.
+        </p>
+        <div style={{ marginTop: "2rem", fontSize: "0.95em", opacity: 0.85 }}>
+          <span>Don't have an account?</span>
+          <br />
+          <Link to="/signup" style={{ color: "#fff", fontWeight: 600, textDecoration: "underline" }}>
+            Signup here
+          </Link>
+        </div>
+      </div>
+      <div
+        className="auth-form-section"
+        style={{
+          flex: 1,
+          minWidth: "260px",
+          maxWidth: "420px",
+          padding: "2.5rem 2rem",
+          background: "#fff",
+          borderRadius: "0 18px 18px 0",
+          boxShadow: "0 8px 32px 0 rgba(107, 142, 35, 0.18)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          zIndex: 1,
+        }}
+      >
+        <div style={{ width: "100%" }}>
+          <h2
+            style={{
+              color: "#6b8e23",
               fontWeight: 700,
-              fontSize: "2.5em",
-              marginBottom: "20px",
+              fontSize: "2em",
+              marginBottom: "1.5rem",
               textAlign: "center",
-              letterSpacing: "1px"
-            }}>Login</h2>
-            <form
-              onSubmit={handleLogin}
+              letterSpacing: "1px",
+            }}
+          >
+            Login
+          </h2>
+          <form
+            onSubmit={handleLogin}
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "18px",
+            }}
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+              disabled={isLoading}
               style={{
+                fontSize: "1.1em",
+                height: "2.8em",
+                border: "1.5px solid #6b8e23",
+                borderRadius: "8px",
+                paddingLeft: "14px",
+                background: "none",
                 width: "100%",
-                maxWidth: "400px",
-                margin: "0 auto",
-                padding: 0,
-                boxShadow: "none",
-                borderRadius: "16px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-                background: "rgba(255,255,255,0.0)",
-                backdropFilter: "blur(2px)"
+                boxSizing: "border-box",
+                opacity: isLoading ? 0.7 : 1,
               }}
-            >
+            />
+            {inputErrors.email && (
+              <span className="error-message">{inputErrors.email}</span>
+            )}
+
+            <div style={{ position: "relative", width: "100%" }}>
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
                 required
                 disabled={isLoading}
                 style={{
-                  fontSize: "1.2em",
-                  height: "3em",
-                  border: "2px solid #2563eb",
-                  borderRadius: "10px",
-                  paddingLeft: "16px",
-                  background: "none",
+                  fontSize: "1.1em",
+                  height: "2.8em",
+                  border: "1.5px solid #6b8e23",
+                  borderRadius: "8px",
+                  paddingLeft: "14px",
+                  paddingRight: "40px",
                   width: "100%",
+                  background: "none",
                   boxSizing: "border-box",
-                  opacity: isLoading ? 0.7 : 1
+                  opacity: isLoading ? 0.7 : 1,
                 }}
               />
-              {inputErrors.email && <span className="error-message">{inputErrors.email}</span>}
-              
-              <div style={{ position: "relative", width: "100%" }}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  required
-                  disabled={isLoading}
-                  style={{
-                    fontSize: "1.2em",
-                    height: "3em",
-                    border: "2px solid #2563eb",
-                    borderRadius: "10px",
-                    paddingLeft: "16px",
-                    paddingRight: "40px",
-                    width: "100%",
-                    background: "none",
-                    boxSizing: "border-box",
-                    opacity: isLoading ? 0.7 : 1
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  disabled={isLoading}
-                  style={{
-                    position: "absolute",
-                    right: "12px",
-                    top: "40%",
-                    transform: "translateY(-50%)",
-                    width: "28px",
-                    height: "28px",
-                    background: "none",
-                    border: "none",
-                    padding: "5px",
-                    margin: "0 0 5px 0",
-                    cursor: isLoading ? "not-allowed" : "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    opacity: isLoading ? 0.7 : 1
-                  }}
-                  tabIndex={-1}
-                >
-                  <img
-                    src={hiddenIcon}
-                    alt={showPassword ? "Hide Password" : "Show Password"}
-                    style={{
-                      width: "22px",
-                      height: "22px",
-                      opacity: 0.7,
-                      pointerEvents: "none",
-                      display: "block",
-                      verticalAlign: "middle"
-                    }}
-                  />
-                </button>
-              </div>
-              {inputErrors.password && <span className="error-message">{inputErrors.password}</span>}
-              
-              <button 
-                type="submit" 
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
                 disabled={isLoading}
                 style={{
-                  fontSize: "1.2em",
-                  height: "3em",
-                  background: isLoading 
-                    ? "linear-gradient(90deg, #93a5cf 0%, #7b8cb5 100%)"
-                    : "linear-gradient(90deg, #2563eb 0%, #1e3a8a 100%)",
-                  color: "#fff",
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "28px",
+                  height: "28px",
+                  background: "none",
                   border: "none",
-                  borderRadius: "10px",
-                  fontWeight: 700,
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                  boxShadow: "0 2px 8px rgba(37,99,235,0.15)",
+                  padding: "0",
+                  margin: "0",
                   cursor: isLoading ? "not-allowed" : "pointer",
-                  letterSpacing: "1px",
-                  transition: "background 0.3s",
-                  width: "100%"
+                  color: "#6b8e23",
+                  fontWeight: 700,
+                  fontSize: "1.2em",
+                  opacity: isLoading ? 0.7 : 1,
                 }}
+                tabIndex={-1}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {showPassword ? "🙈" : "👁️"}
               </button>
-              {errorMsg && <p className="error-message">{errorMsg}</p>}
-            </form>
-            <p style={{ color: "#2563eb", marginTop: "18px", textAlign: "center" }}>
-              Don't have an account? <Link to="/signup" style={{ color: "#1e3a8a", fontWeight: 600 }}>Signup</Link>
-            </p>
+            </div>
+            {inputErrors.password && (
+              <span className="error-message">{inputErrors.password}</span>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              style={{
+                fontSize: "1.1em",
+                height: "2.8em",
+                background:
+                  "linear-gradient(90deg, #6b8e23 0%, #a0522d 100%)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                fontWeight: 700,
+                marginTop: "10px",
+                marginBottom: "10px",
+                boxShadow: "0 2px 8px rgba(107,142,35,0.10)",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                letterSpacing: "1px",
+                transition: "background 0.3s",
+                width: "100%",
+              }}
+            >
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+            {errorMsg && <p className="error-message">{errorMsg}</p>}
+          </form>
+          <div style={{ textAlign: "center", marginTop: "1.2em" }}>
+            <span style={{ color: "#6b8e23" }}>Don't have an account? </span>
+            <Link to="/signup" style={{ color: "#a0522d", fontWeight: 600, textDecoration: "underline" }}>
+              Signup
+            </Link>
           </div>
         </div>
       </div>
+      {/* Responsive stacking for mobile */}
+      <style>
+        {`
+        @media (max-width: 900px) {
+          .auth-main-container {
+            flex-direction: column !important;
+          }
+          .auth-prompt-section {
+            border-radius: 18px 18px 0 0 !important;
+            max-width: 100vw !important;
+          }
+          .auth-form-section {
+            border-radius: 0 0 18px 18px !important;
+            max-width: 100vw !important;
+          }
+        }
+        `}
+      </style>
     </div>
   );
 };

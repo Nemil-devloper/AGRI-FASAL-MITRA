@@ -21,21 +21,84 @@ const bookingSchema = new mongoose.Schema({
     },
     totalAmount: {
         type: Number,
-        required: true,
-        min: 0
+        required: true
     },
     status: {
         type: String,
-        enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+        enum: ['pending', 'confirmed', 'completed', 'cancelled'],
         default: 'pending'
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    payment: {
+        depositPaid: {
+            type: Boolean,
+            default: false
+        },
+        depositAmount: Number,
+        depositPaidDate: Date,
+        depositRefunded: {
+            type: Boolean,
+            default: false
+        },
+        depositRefundDate: Date,
+        finalPaymentStatus: {
+            type: String,
+            enum: ['pending', 'partial', 'completed'],
+            default: 'pending'
+        },
+        finalPaymentDate: Date
+    },
+    insurance: {
+        required: Boolean,
+        provided: Boolean,
+        policyNumber: String,
+        coverageDetails: String,
+        expiryDate: Date
+    },
+    operator: {
+        name: String,
+        licenseNumber: String,
+        experience: String,
+        contactNumber: String
+    },
+    delivery: {
+        deliveryRequired: Boolean,
+        deliveryAddress: String,
+        deliveryDate: Date,
+        deliveryTime: String,
+        deliveryInstructions: String,
+        deliveryStatus: {
+            type: String,
+            enum: ['pending', 'scheduled', 'completed'],
+            default: 'pending'
+        }
+    },
+    notes: {
+        specialRequirements: String,
+        additionalEquipment: String,
+        siteConditions: String,
+        farmerNotes: String,
+        renterNotes: String
+    },
+    inspection: {
+        preRental: {
+            completed: Boolean,
+            date: Date,
+            notes: String,
+            photos: [String]
+        },
+        postRental: {
+            completed: Boolean,
+            date: Date,
+            notes: String,
+            photos: [String],
+            damageReport: String
+        }
     }
+}, {
+    timestamps: true
 });
 
-// Add validation to ensure endDate is after startDate
+// Validate that endDate is after startDate
 bookingSchema.pre('save', function(next) {
     if (this.endDate <= this.startDate) {
         next(new Error('End date must be after start date'));
@@ -43,6 +106,4 @@ bookingSchema.pre('save', function(next) {
     next();
 });
 
-const Booking = mongoose.model('Booking', bookingSchema);
-
-module.exports = Booking; 
+module.exports = mongoose.model('Booking', bookingSchema, 'bookings'); 

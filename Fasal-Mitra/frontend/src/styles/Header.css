@@ -13,6 +13,11 @@
   height: 70px;
 }
 
+.header.no-padding {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .header-container .logo {
   height: 50px; /* Adjust the height as needed */
   width: 100px; /* Adjust the width as needed */
@@ -46,6 +51,17 @@
   background-color: rgba(255, 255, 255, 0.2); /* Light transparent background on hover */
   color: #ffffff; /* White text on hover */
   transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Active link styles */
+.nav-links a.active,
+.nav-links .active,
+.nav-links a[aria-current="page"] {
+  background: rgba(255,255,255,0.25);
+  color: #ffe066;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(33,136,56,0.10);
+  border-bottom: 3px solid #ffe066;
 }
 
 /* Login/Logout button styles */

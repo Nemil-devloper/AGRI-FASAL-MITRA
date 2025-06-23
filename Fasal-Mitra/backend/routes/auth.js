@@ -19,7 +19,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array().map(err => err.msg).join(', ') });
+      return res.status(400).json({ message: errors.array().map(err => err.msg).join(', ') });
     }
 
     const { username, email, password, phone, dob } = req.body;
@@ -27,7 +27,7 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res.status(400).json({ message: 'User already exists' });
       }
 
       // Create new user - password will be hashed by the User model's pre-save middleware
@@ -36,12 +36,24 @@ router.post(
 
       const payload = { user: { id: user.id } };
       jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
-        if (err) throw err;
+        if (err) {
+          console.error('JWT sign error:', err);
+          return res.status(500).json({ message: 'Signup failed. Please try again.' });
+        }
+        // Set cookie based on environment
+        const isProd = process.env.NODE_ENV === 'production';
+        res.cookie('authToken', token, {
+          httpOnly: true,
+          secure: isProd,
+          sameSite: isProd ? 'None' : 'Lax',
+          // domain: isProd ? '.yourdomain.com' : undefined, // Uncomment and set if needed
+          maxAge: 7 * 24 * 60 * 60 * 1000
+        });
         res.json({ token });
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+      console.error('Signup error:', err);
+      res.status(500).json({ message: 'Signup failed. Please try again.', error: process.env.NODE_ENV === 'development' ? err.message : undefined });
     }
   }
 );
@@ -66,6 +78,15 @@ router.post('/login', async (req, res) => {
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE || '1h' }, (err, token) => {
       if (err) throw err;
+      // Set cookie based on environment
+      const isProd = process.env.NODE_ENV === 'production';
+      res.cookie('authToken', token, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? 'None' : 'Lax',
+        // domain: isProd ? '.yourdomain.com' : undefined, // Uncomment and set if needed
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
       res.json({ token, user: { id: user.id, email: user.email, username: user.username } });
     });
   } catch (err) {

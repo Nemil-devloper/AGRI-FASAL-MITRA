@@ -23,3 +23,82 @@
     transform: rotate(360deg);
   }
 }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main-content {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding-top: 80px; /* match header height */
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f9f9f9;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #107813 #f1f1f1;
+}
+
+/* Custom Scrollbar for .main-content */
+.main-content::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f1f1f1;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #107813, #afcd2a);
+  border-radius: 6px;
+  border: 2px solid #f1f1f1;
+  min-height: 50px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #0d5f0f, #8fb91f);
+}
+
+/* Responsive: ensure .main-content always leaves space for header */
+@media (max-width: 480px) {
+  .main-content {
+    padding-top: 60px;
+  }
+}
+
+/* Remove scrollbars from all page containers */
+.potato,
+.bellpepper,
+.tomato,
+.pest,
+.machine-rental-page,
+.lender-page,
+.smart-irrigation-container,
+.policy-container,
+.disease-detection-container,
+.rental-content,
+.home,
+.home-body {
+  max-height: none !important;
+  overflow: visible !important;
+  /* Remove any custom scrollbar styles if present */
+}
+
+.main-content.no-header-padding {
+  padding-top: 0 !important;
+}

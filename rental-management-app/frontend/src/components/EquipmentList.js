@@ -137,10 +137,12 @@ const EquipmentList = () => {
 
     const totalPages = Math.ceil(filteredEquipment.length / ITEMS_PER_PAGE);
 
+    // Only use Cloudinary images
     const getImageUrl = (imagePath) => {
         if (!imagePath) return 'https://via.placeholder.com/300x200';
-        if (imagePath.startsWith('http')) return imagePath;
-        return `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}${imagePath}`;
+        // Only allow Cloudinary URLs
+        if (imagePath.startsWith('http') && imagePath.includes('res.cloudinary.com')) return imagePath;
+        return 'https://via.placeholder.com/300x200';
     };
 
     if (loading) {
@@ -332,4 +334,4 @@ const EquipmentList = () => {
     );
 };
 
-export default EquipmentList; 
+export default EquipmentList;

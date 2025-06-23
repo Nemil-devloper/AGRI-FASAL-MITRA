@@ -1,50 +1,67 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
+  // Check auth status on mount
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        try {
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          await axios.get('https://agri-fasal-mitra.onrender.com/api/auth/profile');
-          setIsAuthenticated(true);
-        } catch (error) {
-          console.error('Token verification failed:', error);
-          localStorage.removeItem('authToken');
-          delete axios.defaults.headers.common['Authorization'];
-        }
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/auth/profile`,
+          { withCredentials: true }
+        );
+        setUser(res.data);
+        setIsAuthenticated(true);
+      } catch {
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
-      setIsLoading(false);
     };
-
-    verifyToken();
+    checkAuth();
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem('authToken', token);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('authToken');
-    delete axios.defaults.headers.common['Authorization'];
+  // Login: set auth, fetch user profile
+  const login = async (token) => {
+    // Always clear previous state before login
+    setUser(null);
     setIsAuthenticated(false);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/profile`,
+        { withCredentials: true }
+      );
+      setUser(res.data);
+      setIsAuthenticated(true);
+    } catch {
+      setUser(null);
+      setIsAuthenticated(false);
+    }
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // Logout: call backend to clear cookie, clear state
+  const logout = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {},
+        { withCredentials: true }
+      );
+    } catch {}
+    setIsAuthenticated(false);
+    setUser(null);
+    // Optionally: clear any localStorage/sessionStorage if used
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

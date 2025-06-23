@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../styles/Header.css";
-import logo from "../assets/logo.png"; // Make sure to replace this with the correct path to your logo file
+import logo from "../assets/logo.png";
+import { useAuth } from "../context/AuthContext";
 
-function Header({ isAuthenticated, onLogout }) {
+function Header() {
+  const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -28,13 +31,24 @@ function Header({ isAuthenticated, onLogout }) {
     setIsMenuOpen(false);
   };
 
-  const handleLogout = () => {
-    onLogout();  // Call the logout function passed as a prop
-    navigate("/auth");  // Redirect to the login page
+  const handleLogout = async () => {
+    await logout();  // Call the logout function from context
+    navigate("/login");  // Redirect to the login page
   };
 
+  const navLinks = [
+    ['/home', 'Home'],
+    ['/chatbot', 'ChatBot'],
+    ['/smart-irrigation', 'Smart Irrigation'],
+    ['/ai-pest-detection', 'AI Pest Detection'],
+    ['/climate-prediction', 'Climate'],
+    ['/machine-rental', 'Rental'],
+    ['/plant-disease-detection', 'Plant Disease'],
+    ['/policy', 'Policies'],
+  ];
+
   return (
-    <header className="header">
+    <header className={`header${location.pathname === "/auth" ? " no-padding" : ""}`}>
       <div className="header-container">
         <Link to="/" onClick={handleNavClick}>
           <img src={logo} alt="Fasal Mitra Logo" className="logo" />
@@ -42,17 +56,14 @@ function Header({ isAuthenticated, onLogout }) {
       </div>
       
       <nav className={`nav-links ${isMenuOpen ? "nav-open" : ""}`}>
-        {[
-          ['/', 'Home'],
-          ['/chatbot', 'ChatBot'],
-          ['/smart-irrigation', 'Smart Irrigation'],
-          ['/ai-pest-detection', 'AI Pest Detection'],
-          ['/climate-prediction', 'Climate'],
-          ['/machine-rental', 'Rental'],
-          ['/plant-disease-detection', 'Plant Disease'],
-          ['/policy', 'Policies'],
-        ].map(([path, label]) => (
-          <Link key={path} to={path} onClick={handleNavClick}>
+        {navLinks.map(([path, label]) => (
+          <Link
+            key={path}
+            to={path}
+            onClick={handleNavClick}
+            className={location.pathname === path || location.pathname.startsWith(path + "/") ? "active" : ""}
+            aria-current={location.pathname === path ? "page" : undefined}
+          >
             {label}
           </Link>
         ))}
@@ -62,7 +73,7 @@ function Header({ isAuthenticated, onLogout }) {
             Logout
           </button>
         ) : (
-          <Link to="/auth" onClick={handleNavClick} className="login-button">
+          <Link to="/login" onClick={handleNavClick} className="login-button">
             Login
           </Link>
         )}

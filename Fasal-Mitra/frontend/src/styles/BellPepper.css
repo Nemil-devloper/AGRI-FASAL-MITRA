@@ -17,9 +17,6 @@ body {
 
 .bellpepper {
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
   margin: 20px;
   padding: 40px;
   background: white;
@@ -27,17 +24,6 @@ body {
   border-radius: 20px;
   text-align: center;
   animation: fadeIn 1s ease;
-  scrollbar-width: thin;
-  scrollbar-color: #6c63ff #e0e0e0;
-}
-
-.bellpepper::-webkit-scrollbar {
-  width: 12px;
-}
-
-.bellpepper::-webkit-scrollbar-thumb {
-  background: #6c63ff;
-  border-radius: 10px;
 }
 
 .bellpepper h2 {
@@ -155,6 +141,63 @@ input[type="file"] {
   background: #ff1744;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(255, 82, 82, 0.5);
+}
+
+/* Ensure all shared sections are scoped under .bellpepper */
+.bellpepper .description-section {
+  margin-bottom: 40px;
+  text-align: left;
+  padding: 20px;
+  background: #f8f9ff;
+  border-radius: 15px;
+  width: 100%;
+}
+
+.bellpepper .description-content {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.bellpepper .main-description {
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.bellpepper .features-list,
+.bellpepper .how-to-use {
+  margin: 25px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  text-align: left;
+}
+
+.bellpepper .features-list h3,
+.bellpepper .how-to-use h3 {
+  color: #2c387e;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.bellpepper .features-list ul,
+.bellpepper .how-to-use ol {
+  text-align: left;
+  padding-left: 20px;
+  width: 100%;
+  list-style: initial;
+  margin-left: 1.5em;
+}
+
+.bellpepper .features-list li,
+.bellpepper .how-to-use li {
+  margin: 10px 0;
+  color: #555;
+  line-height: 1.5;
 }
 
 @keyframes fadeIn {

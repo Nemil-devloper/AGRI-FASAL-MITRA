@@ -1,4 +1,5 @@
 .lender-page {
+    /* Remove min-height, overflow, etc. to let .main-content handle scrolling */
     font-family: 'Poppins', sans-serif;
     margin-top: 50px;
     padding-top: 40px;
@@ -6,11 +7,9 @@
     background-image: url("lender.jpg");
     background-size: 3050px 1000px;
     opacity: 0.9;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
   }
   
   .lender-container { 
@@ -119,4 +118,5 @@
   .error {
     color: #dc3545;
   }
+  
   

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import "../styles/BellPepper.css";
 import axios from "axios";
 
-export default function BellPepper() {
+function BellPepper() {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [image, setImage] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,14 +64,18 @@ export default function BellPepper() {
   };
 
   return (
-    <div className="bellpepper-main">
+    <div className="disease-detection-container">
+      <h1>Bell Pepper Disease Detection</h1>
+      <p>
+        Upload a photo of your bell pepper plant to detect possible diseases using AI.
+      </p>
       <div className="bellpepper">
         <div className="description-section">
-          <h2>Bell Pepper Disease Detection</h2>
+          <h2>About This Feature</h2>
           <div className="description-content">
             <p className="main-description">
-              Our advanced AI system helps farmers identify and manage bell pepper plant diseases effectively. 
-              Using state-of-the-art machine learning algorithms, we can detect various diseases that commonly 
+              Our advanced AI system helps farmers identify and manage bell pepper plant diseases effectively.
+              Using state-of-the-art machine learning algorithms, we can detect various diseases that commonly
               affect bell pepper crops, providing instant diagnosis and treatment recommendations.
             </p>
             <div className="features-list">
@@ -134,3 +141,5 @@ export default function BellPepper() {
     </div>
   );
 }
+
+export default BellPepper;

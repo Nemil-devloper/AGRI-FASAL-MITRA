@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Potato.css';
 import axios from 'axios';
 
@@ -6,6 +6,15 @@ export default function Potato() {
   const [image, setImage] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [text, setText] = useState(() => {
+    // Restore from localStorage if available
+    return localStorage.getItem('potatoText') || "";
+  });
+
+  useEffect(() => {
+    // Save to localStorage on change
+    localStorage.setItem('potatoText', text);
+  }, [text]);
 
   const diseaseDetails = {
     "Early Blight": {
@@ -66,10 +75,13 @@ export default function Potato() {
   };
 
   return (
-    <div className="potato-main">
+    <div className="disease-detection-container">
+      <h1>Potato Disease Detection</h1>
+      <p>
+        Upload a photo of your potato plant to detect possible diseases using AI.
+      </p>
       <div className="potato">
         <div className="description-section">
-          <h2>Potato Disease Detection</h2>
           <div className="description-content">
             <p className="main-description">
               Our advanced AI system helps farmers identify and manage potato plant diseases effectively. 

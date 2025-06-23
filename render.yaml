@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: deep-learning-api
+    env: docker
+    plan: free
+    autoDeploy: true
+    region: oregon
+    repo: https://github.com/Nemil-devloper/agri-fasal-mitra
+    dockerContext: Fasal-mitra/DeepLearningproject
+    dockerfilePath: Fasal-mitra/DeepLearningproject/Dockerfile
